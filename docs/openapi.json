@@ -1,0 +1,325 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Astra API",
+        "version": "0.0.1",
+        "description": "The Overachieve API provides restaurateurs with a convenient way to get sales predictions for specific menu items. The endpoint returns predicted sales, average sales, and predicted sales with an added buffer."
+    },
+    "paths": {
+        "/prediction": {
+            "get": {
+                "summary": "Get sales prediction for a menu item",
+                "parameters": [
+                    {
+                        "name": "menu_item_id",
+                        "in": "query",
+                        "description": "The unique identifier of the menu item for which the sales prediction is requested.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "buffer",
+                        "in": "query",
+                        "description": "A percentage value to be added to the predicted sales as a buffer. Default is 0 if not provided.",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sales prediction data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "menu_item_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the menu item."
+                                        },
+                                        "predicted_sales": {
+                                            "type": "number",
+                                            "description": "The predicted sales for the menu item for tomorrow."
+                                        },
+                                        "average_sales": {
+                                            "type": "number",
+                                            "description": "The historical average sales for the menu item."
+                                        },
+                                        "buffered_target": {
+                                            "type": "number",
+                                            "description": "The predicted sales, with promotion + upsell recommendation included."
+                                        },
+                                        "item_name": {
+                                            "type": "string",
+                                            "description": "The name of the menu item."
+                                        },
+                                        "prediction_date": {
+                                            "type": "number",
+                                            "description": "The date for which the sales prediction was made. Date is in Unix time, ie the number of seconds since 1 January 1970. So 1609459200 is 1 January 2021."
+                                        },
+                                        "confidence": {
+                                            "type": "number",
+                                            "description": "The confidence level of the prediction. This is a number between 0 and 1, where 1 is the highest confidence."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/upload": {
+            "post": {
+                "summary": "Upload historical transaction data",
+                "description": "Upload a file containing historical transaction data in CSV format.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The CSV file containing historical transaction data."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "File uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A success message indicating that the file was uploaded and processed."
+                                        },
+                                        "records_imported": {
+                                            "type": "integer",
+                                            "description": "The number of transaction records imported from the uploaded file."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/model": {
+            "get": {
+                "summary": "Get the status of a specific trained model",
+                "parameters": [
+                    {
+                        "name": "model_id",
+                        "in": "query",
+                        "description": "The unique identifier of the model for which the status is requested.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Model status data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "model_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the model."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "trained",
+                                                "training",
+                                                "other"
+                                            ],
+                                            "description": "The status of the model (trained, training, or other)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
