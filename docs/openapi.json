@@ -309,69 +309,69 @@
                                                         }
                                                     }
                                                 }
-                                            }
+                                            },
+                                            "description": "An array of sales predictions for the next x days. X is the # of days specified in the forecast_days query parameter."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
                                         },
-                                        "description": "An array of sales predictions for the next x days. X is the # of days specified in the forecast_days query parameter."
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                },
-                "400": {
-                    "description": "Bad Request",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "error_code": {
-                                        "type": "integer",
-                                        "description": "Error code representing the type of error that occurred."
-                                    },
-                                    "message": {
-                                        "type": "string",
-                                        "description": "A description of the error that occurred."
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                },
-                "404": {
-                    "description": "Not Found",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "error_code": {
-                                        "type": "integer",
-                                        "description": "Error code representing the type of error that occurred."
-                                    },
-                                    "message": {
-                                        "type": "string",
-                                        "description": "A description of the error that occurred."
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "500": {
-                    "description": "Internal Server Error",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "error_code": {
-                                        "type": "integer",
-                                        "description": "Error code representing the type of error that occurred."
-                                    },
-                                    "message": {
-                                        "type": "string",
-                                        "description": "A description of the error that occurred."
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
                                     }
                                 }
                             }
