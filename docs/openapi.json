@@ -6,9 +6,9 @@
         "description": "The Overachieve API provides restaurateurs with a convenient way to get sales predictions for specific menu items. The endpoint returns predicted sales, average sales, and predicted sales with an added buffer."
     },
     "paths": {
-        "/prediction": {
+        "/v1/prediction/restaurant/{restaurant_id}": {
             "get": {
-                "summary": "Get sales prediction for a menu item",
+                "summary": "Get sales prediction for a restaurant",
                 "parameters": [
                     {
                         "name": "menu_item_id",
@@ -133,10 +133,257 @@
                 }
             }
         },
-        "/upload": {
+        "/v1/prediction/item/{menu_item_id}": {
+            "get": {
+                "summary": "Get sales predictions for a single menu item",
+                "description": "Provides the predicted sales for the given menu item. It will call the model built for that menu item. The model will pull the data from the parameters of this API call, as well as Weather data from our Weather API provider. The model will also identify public holidays based on the location of the restaurant. ",
+                "parameters": [
+                    {
+                        "name": "menu_item_id",
+                        "in": "path",
+                        "description": "The unique identifier of the menu item for which the sales prediction is requested.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "forecast_days",
+                        "in": "query",
+                        "description": "The number of days for the sales forecast. Default is 14 if not provided.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 14
+                        }
+                    },
+                    {
+                        "name": "buffer_amount",
+                        "in": "query",
+                        "description": "The buffer amount to be added to the predicted sales. By default, our model will determine the best buffer.",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "buffer_type",
+                        "in": "query",
+                        "description": "The type of buffer amount, either 'percentage' or 'sales_volume'. Default is 'percentage' if not provided.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "percentage",
+                                "sales_volume"
+                            ],
+                            "default": "percentage"
+                        }
+                    },
+                    {
+                        "name": "major_events",
+                        "in": "query",
+                        "description": "An array of dates representing major events that are expected to positively affect sales. By including a date, we will flag that date as a major event and the prediction will be adjusted accordingly. Default is an empty array if not provided.",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "format": "date"
+                            }
+                        }
+                    },
+                    {
+                        "name": "manual_adjustment",
+                        "in": "query",
+                        "description": "An array of objects containing dates and manual adjustment amounts for sales predictions, typically used when the user has scheduled catering, reservations with large groups, or other known sales-increasing events.",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "The date of the manual adjustment."
+                                    },
+                                    "adjustment": {
+                                        "type": "number",
+                                        "description": "The amount to adjust the sales prediction for the specified date. Give it in unit sales"
+                                    }
+                                },
+                                "required": [
+                                    "date",
+                                    "adjustment"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "forecast_type",
+                        "in": "query",
+                        "description": "Determines whether the forecast should be in units sold or in revenue generated. Accepts 'units' or 'revenue'.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "units",
+                                "revenue"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "current_price",
+                        "in": "query",
+                        "description": "Optional, if forecast_type is 'revenue'. The current price of the menu item. Discarded if forecast_type is 'units'. By default, the last known price will be used.",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sales prediction data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "menu_item_id": {
+                                            "type": "string",
+                                            "description": "The unique identifier of the menu item."
+                                        },
+                                        "menu_item_name": {
+                                            "type": "string",
+                                            "description": "The name of the menu item."
+                                        },
+                                        "predictions": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "predicted_sales": {
+                                                        "type": "number",
+                                                        "description": "The predicted sales for the menu item for a specific day."
+                                                    },
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "description": "The date of the sales prediction."
+                                                    },
+                                                    "predicted_avg_sales": {
+                                                        "type": "number",
+                                                        "description": "The historical average sales for the menu item."
+                                                    },
+                                                    "buffered_target": {
+                                                        "type": "number",
+                                                        "description": "The predicted sales for the menu item with the designated buffer amount added."
+                                                    },
+                                                    "buffer_amount": {
+                                                        "type": "number",
+                                                        "description": "The buffer amount added to the predicted sales."
+                                                    },
+                                                    "confidence": {
+                                                        "type": "number",
+                                                        "description": "The confidence level of the sales prediction."
+                                                    },
+                                                    "manual_adjustment": {
+                                                        "type": "number",
+                                                        "description": "Any manual adjustment, if provided, included in the predicted_sales figure."
+                                                    },
+                                                    "weather": {
+                                                        "type": "object",
+                                                        "description": "The weather data for the day of the sales prediction.",
+                                                        "properties": {
+                                                            "temperature": {
+                                                                "type": "number",
+                                                                "description": "The temperature for the day of the sales prediction in Celsius."
+                                                            },
+                                                            "weather_description": {
+                                                                "type": "string",
+                                                                "description": "The weather description for the day of the sales prediction."
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "description": "An array of sales predictions for the next x days. X is the # of days specified in the forecast_days query parameter."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Bad Request",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "error_code": {
+                                        "type": "integer",
+                                        "description": "Error code representing the type of error that occurred."
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "description": "A description of the error that occurred."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Not Found",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "error_code": {
+                                        "type": "integer",
+                                        "description": "Error code representing the type of error that occurred."
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "description": "A description of the error that occurred."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "500": {
+                    "description": "Internal Server Error",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "error_code": {
+                                        "type": "integer",
+                                        "description": "Error code representing the type of error that occurred."
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "description": "A description of the error that occurred."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/upload": {
             "post": {
-                "summary": "Upload historical transaction data",
-                "description": "Upload a file containing historical transaction data in CSV format.",
+                "summary": "Upload new data to re-train existing prediction model",
+                "description": "Upload new historical data to add onto the training data for a predition model. NOTE: This endpoint is currently on hold and not yet implemented. We are still considering the implementation of this feature. Stay tuned for updates.",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -147,7 +394,7 @@
                                     "file": {
                                         "type": "string",
                                         "format": "binary",
-                                        "description": "The CSV file containing historical transaction data."
+                                        "description": "The CSV file containing historical transaction data. File must include the following columns: menu_item_id, quantity, time of purchase, # of people served in the ticket."
                                     }
                                 }
                             }
@@ -218,9 +465,9 @@
                 }
             }
         },
-        "/model": {
+        "/v1/model": {
             "get": {
-                "summary": "Get the status of a specific trained model",
+                "summary": "Get information about a model",
                 "parameters": [
                     {
                         "name": "model_id",
@@ -317,6 +564,17 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/v1/discount": {
+            "get": {
+                "summary": "Discount Endpoint (Placeholder)",
+                "description": "This is a placeholder for the future /discount route. More information will be provided once the route is fully implemented.",
+                "responses": {
+                    "200": {
+                        "description": "Placeholder response"
                     }
                 }
             }
