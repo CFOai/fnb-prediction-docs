@@ -5,6 +5,15 @@
         "version": "0.0.1",
         "description": "The Overachieve API provides restaurateurs with a convenient way to get sales predictions for specific menu items. The endpoint returns predicted sales, average sales, and predicted sales with an added buffer."
     },
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "ASTRA-API-KEY"
+            }
+        }
+    },
     "paths": {
         "/v1/prediction/restaurant/{restaurant_id}": {
             "get": {
@@ -137,6 +146,11 @@
             "get": {
                 "summary": "Get sales predictions for a single menu item",
                 "description": "Provides the predicted sales for the given menu item. It will call the model built for that menu item. The model will pull the data from the parameters of this API call, as well as Weather data from our Weather API provider. The model will also identify public holidays based on the location of the restaurant. ",
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "menu_item_id",
