@@ -348,7 +348,11 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "The number of results to return. Range is between 1 and 100, default is 10."
+                        "description": "The number of results to return. Range is between 1 and 100, default is 10.",
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
                     }
                 ],
                 "responses": {
