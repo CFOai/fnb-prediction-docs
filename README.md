@@ -4,4 +4,4 @@ This documentation is for the API we are building in collaboration with Astra. T
 
 To contribute to the docs, please submit issues or pull requests, and our moderators will review.
 
-A human-friendly site can be viewed at [Redocly here](https://cuddly-chicken-2.redoc.ly): 
+A human-friendly site can be viewed at [here](https://bump.sh/chingjuiyoung/doc/fnb-prediction)
