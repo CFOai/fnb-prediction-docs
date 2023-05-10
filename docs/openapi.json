@@ -336,9 +336,19 @@
                 "description": "Returns a list of trained models. A model is built for every resource (menu item, category, store, etc). Models are trained on previously provided sales data, and also include external data sources such as weather data and public holidays. ",
                 "parameters": [
                     {
+                        "name": "name",
+                        "in": "query",
+                        "description": "A partial name of the model to search for. This parameter supports approximate matching.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "chicken"
+                        }
+                    },
+                    {
                         "name": "created_after",
                         "in": "query",
-                        "description": "A filter on the list based on the object created field. The value can be a string with an integer Unix timestamp",
+                        "description": "Unix timestamp to filter list of models created after the timestamp.",
                         "required": false,
                         "schema": {
                             "type": "integer",
@@ -352,6 +362,41 @@
                         "schema": {
                             "type": "integer",
                             "example": 10
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "The types of models to return. Accepts a list of options: 'menu_item', 'category', or 'store'.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "menu_item",
+                                    "category",
+                                    "store"
+                                ],
+                                "example": [
+                                    "category",
+                                    "store"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "The status of models to return. Accepts 'ready', 'training', or 'failed'.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "ready",
+                                "training",
+                                "failed"
+                            ],
+                            "example": "ready"
                         }
                     }
                 ],
@@ -367,29 +412,35 @@
                                         "properties": {
                                             "model_id": {
                                                 "type": "string",
-                                                "description": "The unique identifier of the model."
+                                                "description": "The unique identifier of the model.",
+                                                "example": "model_323843"
                                             },
                                             "type": {
                                                 "type": "string",
-                                                "description": "The level of aggregation that the model is trained on. Can return 'menu_item', 'category', or 'store' (for now)"
+                                                "description": "The level of aggregation that the model is trained on. Can return 'menu_item', 'category', or 'store' (for now)",
+                                                "example": "menu_item"
                                             },
                                             "name": {
                                                 "type": "string",
-                                                "description": "The name for the level of aggregation, such as 'Corona' (if it's a menu_item) or 'Red wines' (if it's a category)."
+                                                "description": "The name for the level of aggregation, such as 'Corona' (if it's a menu_item) or 'Red wines' (if it's a category).",
+                                                "example": "Corona"
                                             },
                                             "status": {
                                                 "type": "string",
-                                                "description": "The status of the model. Will return 'ready', 'training', or 'failed'."
+                                                "description": "The status of the model. Will return 'ready', 'training', or 'failed'.",
+                                                "example": "ready"
                                             },
                                             "created_at": {
                                                 "type": "string",
-                                                "format": "date",
-                                                "description": "The date the model was created."
+                                                "format": "date-time",
+                                                "description": "The date and time the model was created.",
+                                                "example": "2023-05-24T10:00:30.000Z"
                                             },
                                             "output_type": {
                                                 "type": "string",
                                                 "format": "string",
-                                                "description": "The output type of the model. Will return 'revenue' or 'unit'."
+                                                "description": "The output type of the model. Will return 'revenue' or 'unit'.",
+                                                "example": "revenue"
                                             }
                                         }
                                     }
