@@ -440,48 +440,104 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Model status data",
+                        "description": "List of models",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "model_id": {
-                                                "type": "string",
-                                                "description": "The unique identifier of the model.",
-                                                "example": "model_323843"
-                                            },
-                                            "type": {
-                                                "type": "string",
-                                                "description": "The level of aggregation that the model is trained on. Can return 'menu_item', 'category', or 'store' (for now)",
-                                                "example": "menu_item"
-                                            },
-                                            "name": {
-                                                "type": "string",
-                                                "description": "The name for the level of aggregation, such as 'Corona' (if it's a menu_item) or 'Red wines' (if it's a category).",
-                                                "example": "Corona"
-                                            },
-                                            "status": {
-                                                "type": "string",
-                                                "description": "The status of the model. Will return 'ready', 'training', or 'failed'.",
-                                                "example": "ready"
-                                            },
-                                            "created_at": {
-                                                "type": "string",
-                                                "format": "date-time",
-                                                "description": "The date and time the model was created.",
-                                                "example": "2023-05-24T10:00:30.000Z"
-                                            },
-                                            "output_type": {
-                                                "type": "string",
-                                                "format": "string",
-                                                "description": "The output type of the model. Will return 'revenue' or 'unit'.",
-                                                "example": "revenue"
-                                            }
+                                        "$ref": "#/components/schemas/Model"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
                                         }
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error_code": {
+                                            "type": "integer",
+                                            "description": "Error code representing the type of error that occurred."
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "A description of the error that occurred."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/models/{id}": {
+            "get": {
+                "summary": "Retreive a model",
+                "description": "Retreives the details of a trained model. A model is built for every resource (menu item, category, store, etc). Models are trained on previously provided sales data, and also include external data sources such as weather data and public holidays. ",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Model id.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "m_3238434738438738934"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a model",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Model"
                                 }
                             }
                         }
