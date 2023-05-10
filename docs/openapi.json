@@ -49,13 +49,83 @@
                         "example": "revenue"
                     }
                 }
+            },
+            "Prediction": {
+                "type": "object",
+                "properties": {
+                    "model": {
+                        "$ref": "#/components/schemas/Model"
+                    },
+                    "predictions": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "date": {
+                                    "type": "string",
+                                    "format": "date",
+                                    "description": "The date of the sales prediction."
+                                },
+                                "predicted_avg_sales": {
+                                    "type": "number",
+                                    "description": "The historical average sales for the menu item."
+                                },
+                                "buffered_prediction": {
+                                    "type": "number",
+                                    "description": "The predicted sales for the menu item with the designated buffer amount added."
+                                },
+                                "confidence": {
+                                    "type": "number",
+                                    "description": "The confidence level of the sales prediction."
+                                },
+                                "manual_adjustment": {
+                                    "type": "number",
+                                    "description": "Any manual adjustment, if provided, included in the predicted_sales figure."
+                                },
+                                "weather": {
+                                    "type": "object",
+                                    "description": "The weather data for the day of the sales prediction.",
+                                    "properties": {
+                                        "temperature": {
+                                            "type": "number",
+                                            "description": "The temperature for the day of the sales prediction in Celsius."
+                                        },
+                                        "weather_description": {
+                                            "type": "string",
+                                            "description": "The weather description for the day of the sales prediction."
+                                        }
+                                    }
+                                },
+                                "holiday": {
+                                    "type": "object",
+                                    "description": "Info about any holidays on this predicted day",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "description": "Name of holiday"
+                                        },
+                                        "date": {
+                                            "type": "string",
+                                            "description": "Date of holiday"
+                                        },
+                                        "location": {
+                                            "type": "string",
+                                            "description": "Location of holiday"
+                                        }
+                                    }
+                                }
+                            },
+                            "description": "An array of sales predictions for the next x days. X is the # of days specified in the forecast_days query parameter."
+                        }
+                    }
+                }
             }
         }
     },
     "paths": {
-        "/v1/prediction": {
+        "/v1/prediction/{model_id}": {
             "get": {
-                "summary": "Get predictions for a resource",
+                "summary": "Retrieve a prediction for a resource",
                 "description": "Provides the predicted sales for the given resource (menu item, category, store, etc.).",
                 "security": [
                     {
@@ -69,7 +139,8 @@
                         "description": "The id for the model for which we want to make the predictions from.",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "m_3238434738438738934"
                         }
                     },
                     {
@@ -153,69 +224,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "menu_item_id": {
-                                            "type": "string",
-                                            "description": "The unique identifier of the menu item."
-                                        },
-                                        "menu_item_name": {
-                                            "type": "string",
-                                            "description": "The name of the menu item."
-                                        },
-                                        "predictions": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "predicted_sales": {
-                                                        "type": "number",
-                                                        "description": "The predicted sales for the menu item for a specific day."
-                                                    },
-                                                    "date": {
-                                                        "type": "string",
-                                                        "format": "date",
-                                                        "description": "The date of the sales prediction."
-                                                    },
-                                                    "predicted_avg_sales": {
-                                                        "type": "number",
-                                                        "description": "The historical average sales for the menu item."
-                                                    },
-                                                    "buffered_target": {
-                                                        "type": "number",
-                                                        "description": "The predicted sales for the menu item with the designated buffer amount added."
-                                                    },
-                                                    "buffer_amount": {
-                                                        "type": "number",
-                                                        "description": "The buffer amount added to the predicted sales."
-                                                    },
-                                                    "confidence": {
-                                                        "type": "number",
-                                                        "description": "The confidence level of the sales prediction."
-                                                    },
-                                                    "manual_adjustment": {
-                                                        "type": "number",
-                                                        "description": "Any manual adjustment, if provided, included in the predicted_sales figure."
-                                                    },
-                                                    "weather": {
-                                                        "type": "object",
-                                                        "description": "The weather data for the day of the sales prediction.",
-                                                        "properties": {
-                                                            "temperature": {
-                                                                "type": "number",
-                                                                "description": "The temperature for the day of the sales prediction in Celsius."
-                                                            },
-                                                            "weather_description": {
-                                                                "type": "string",
-                                                                "description": "The weather description for the day of the sales prediction."
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            },
-                                            "description": "An array of sales predictions for the next x days. X is the # of days specified in the forecast_days query parameter."
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/Prediction"
                                 }
                             }
                         }
