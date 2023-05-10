@@ -146,11 +146,7 @@
                         "type": "string",
                         "description": "Error message"
                     }
-                },
-                "required": [
-                    "error_code",
-                    "message"
-                ]
+                }
             }
         }
     },
