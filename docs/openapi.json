@@ -89,14 +89,14 @@
                     {
                         "name": "forecast_type",
                         "in": "query",
-                        "description": "Determines whether the forecast should be in units or revenue. Accepts 'units' or 'revenue'.",
-                        "required": true,
+                        "description": "If the type of the model is 'menu_item', then you can determine whether the forecast should be in units or revenue. Models for 'category' or 'store' types only return revenue. Accepts 'units' or 'revenue'. Defaults to 'revenue'.",
                         "schema": {
                             "type": "string",
                             "enum": [
                                 "units",
                                 "revenue"
-                            ]
+                            ],
+                            "default": "revenue"
                         }
                     },
                     {
@@ -332,16 +332,23 @@
         },
         "/v1/models": {
             "get": {
-                "summary": "Get information about a model. A model is built for every resource (menu item, category, store, etc). The models are built on previously provided sales data, and also include external data sources such as weather data and public holidays. ",
+                "summary": "List all models",
+                "description": "Returns a list of trained models. A model is built for every resource (menu item, category, store, etc). Models are trained on previously provided sales data, and also include external data sources such as weather data and public holidays. ",
                 "parameters": [
                     {
-                        "name": "model_id",
+                        "name": "created_after",
                         "in": "query",
-                        "description": "The unique identifier of the model for which the status is requested.",
-                        "required": true,
+                        "description": "A filter on the list based on the object created field. The value can be a string with an integer Unix timestamp",
+                        "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "example": 1640995200
                         }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of results to return. Range is between 1 and 100, default is 10."
                     }
                 ],
                 "responses": {
