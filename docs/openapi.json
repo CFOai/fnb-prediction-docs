@@ -3,7 +3,7 @@
     "info": {
         "title": "Astra API",
         "version": "0.0.1",
-        "description": "The Overachieve API provides restaurateurs with a convenient way to get sales predictions for specific menu items. The endpoint returns predicted sales, average sales, and predicted sales with an added buffer."
+        "description": "The Overachieve API provides restaurant managers with a convenient way to get sales predictions. The endpoint mainly return predicted buffered sales.\n\nYou can retrieve predictions at 3 different levels of aggregation (for now): Menu Items, Categories, and Stores. We call these levels 'Resources', because each Resource has its own dedicated model. The Resources are defined as follows:\n\n- **Menu Item**: The most granular resource, representing an individual item on a restaurant's menu.\n\n- **Category**: Represents a group of menu items that fall under the same category (e.g., 'red wines', 'desserts', 'appetizers'). This resource provides a more generalized prediction than individual menu items. Each category is tied to a specific Store. So 'red wines' might be a common category across multiple stores, but we'll have 1 model per category per store.\n\n- **Store**: Represents a whole restaurant. Predictions at this level encompass all menu items within that restaurant.\n\nUsers can retrieve predictions at one of these 3 levels of granularity (for now)."
     },
     "components": {
         "securitySchemes": {
@@ -142,10 +142,10 @@
                 }
             }
         },
-        "/v1/prediction/item/{menu_item_id}": {
+        "/v1/prediction": {
             "get": {
-                "summary": "Get sales predictions for a single menu item",
-                "description": "Provides the predicted sales for the given menu item. It will call the model built for that menu item. The model will pull the data from the parameters of this API call, as well as Weather data from our Weather API provider. The model will also identify public holidays based on the location of the restaurant. ",
+                "summary": "Get predictions for a resource",
+                "description": "Provides the predicted sales for the given resource (menu item, category, store, etc.).",
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -153,9 +153,9 @@
                 ],
                 "parameters": [
                     {
-                        "name": "menu_item_id",
+                        "name": "model_id",
                         "in": "path",
-                        "description": "The unique identifier of the menu item for which the sales prediction is requested.",
+                        "description": "The id for the model for which we want to make the predictions from.",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -164,7 +164,7 @@
                     {
                         "name": "forecast_days",
                         "in": "query",
-                        "description": "The number of days for the sales forecast. Default is 14 if not provided.",
+                        "description": "The number of days for the sales forecast. Default is 14 if not provided. Max is 14, mainly based on limit of Weather API forecasts",
                         "required": false,
                         "schema": {
                             "type": "integer",
@@ -172,40 +172,17 @@
                         }
                     },
                     {
-                        "name": "buffer_amount",
-                        "in": "query",
-                        "description": "The buffer amount to be added to the predicted sales. By default, our model will determine the best buffer.",
-                        "required": false,
-                        "schema": {
-                            "type": "number",
-                            "default": 0
-                        }
-                    },
-                    {
-                        "name": "buffer_type",
-                        "in": "query",
-                        "description": "The type of buffer amount, either 'percentage' or 'sales_volume'. Default is 'percentage' if not provided.",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "percentage",
-                                "sales_volume"
-                            ],
-                            "default": "percentage"
-                        }
-                    },
-                    {
                         "name": "major_events",
                         "in": "query",
-                        "description": "An array of dates representing major events that are expected to positively affect sales. By including a date, we will flag that date as a major event and the prediction will be adjusted accordingly. Default is an empty array if not provided.",
+                        "description": "An array of dates representing major events that are expected to positively affect sales. The models already include public holidays in their training, so this array should include major events that are not yet captured. By including a date, we will flag that date as a major event and the prediction will be adjusted accordingly. Default is an empty array if not provided.",
                         "required": false,
                         "schema": {
                             "type": "array",
                             "items": {
                                 "type": "string",
                                 "format": "date"
-                            }
+                            },
+                            "default": []
                         }
                     },
                     {
@@ -231,14 +208,15 @@
                                 "required": [
                                     "date",
                                     "adjustment"
-                                ]
+                                ],
+                                "default": []
                             }
                         }
                     },
                     {
                         "name": "forecast_type",
                         "in": "query",
-                        "description": "Determines whether the forecast should be in units sold or in revenue generated. Accepts 'units' or 'revenue'.",
+                        "description": "Determines whether the forecast should be in units or revenue. Accepts 'units' or 'revenue'.",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -396,7 +374,7 @@
         },
         "/v1/upload": {
             "post": {
-                "summary": "Upload new data to re-train existing prediction model",
+                "summary": "Upload new data (placeholder)",
                 "description": "Upload new historical data to add onto the training data for a predition model. NOTE: This endpoint is currently on hold and not yet implemented. We are still considering the implementation of this feature. Stay tuned for updates.",
                 "requestBody": {
                     "required": true,
@@ -479,9 +457,9 @@
                 }
             }
         },
-        "/v1/model": {
+        "/v1/models": {
             "get": {
-                "summary": "Get information about a model",
+                "summary": "Get information about a model. A model is built for every resource (menu item, category, store, etc). The models are built on previously provided sales data, and also include external data sources such as weather data and public holidays. ",
                 "parameters": [
                     {
                         "name": "model_id",
@@ -499,20 +477,36 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "model_id": {
-                                            "type": "string",
-                                            "description": "The unique identifier of the model."
-                                        },
-                                        "status": {
-                                            "type": "string",
-                                            "enum": [
-                                                "trained",
-                                                "training",
-                                                "other"
-                                            ],
-                                            "description": "The status of the model (trained, training, or other)."
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "model_id": {
+                                                "type": "string",
+                                                "description": "The unique identifier of the model."
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "description": "The level of aggregation that the model is trained on. Can return 'menu_item', 'category', or 'store' (for now)"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The name for the level of aggregation, such as 'Corona' (if it's a menu_item) or 'Red wines' (if it's a category)."
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "description": "The status of the model. Will return 'ready', 'training', or 'failed'."
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "description": "The date the model was created."
+                                            },
+                                            "output_type": {
+                                                "type": "string",
+                                                "format": "string",
+                                                "description": "The output type of the model. Will return 'revenue' or 'unit'."
+                                            }
                                         }
                                     }
                                 }
@@ -584,7 +578,7 @@
         },
         "/v1/discount": {
             "get": {
-                "summary": "Discount Endpoint (Placeholder)",
+                "summary": "Discount Endpoint (placeholder)",
                 "description": "This is a placeholder for the future /discount route. More information will be provided once the route is fully implemented.",
                 "responses": {
                     "200": {
