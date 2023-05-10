@@ -64,23 +64,28 @@
                                 "date": {
                                     "type": "string",
                                     "format": "date",
-                                    "description": "The date of the sales prediction."
+                                    "description": "The date of the sales prediction.",
+                                    "example": "2023-05-24"
                                 },
                                 "predicted_avg_sales": {
                                     "type": "number",
-                                    "description": "The historical average sales for the menu item."
+                                    "description": "The historical average sales for the menu item.",
+                                    "example": 23
                                 },
                                 "buffered_prediction": {
                                     "type": "number",
-                                    "description": "The predicted sales for the menu item with the designated buffer amount added."
+                                    "description": "The predicted sales for the menu item with the designated buffer amount added.",
+                                    "example": 29
                                 },
                                 "confidence": {
                                     "type": "number",
-                                    "description": "The confidence level of the sales prediction."
+                                    "description": "The confidence level of the sales prediction.",
+                                    "example": 0.95
                                 },
                                 "manual_adjustment": {
                                     "type": "number",
-                                    "description": "Any manual adjustment, if provided, included in the predicted_sales figure."
+                                    "description": "Any manual adjustment, if provided, included in the predicted_sales figure.",
+                                    "example": 3
                                 },
                                 "weather": {
                                     "type": "object",
@@ -88,11 +93,18 @@
                                     "properties": {
                                         "temperature": {
                                             "type": "number",
-                                            "description": "The temperature for the day of the sales prediction in Celsius."
+                                            "description": "The temperature for the day of the sales prediction in Celsius.",
+                                            "example": "23"
                                         },
                                         "weather_description": {
                                             "type": "string",
-                                            "description": "The weather description for the day of the sales prediction."
+                                            "description": "The weather description for the day of the sales prediction.",
+                                            "example": "Partly cloudy"
+                                        },
+                                        "location": {
+                                            "type": "string",
+                                            "description": "The location for the weather data.",
+                                            "example": "Shanghai, CN"
                                         }
                                     }
                                 },
@@ -102,15 +114,18 @@
                                     "properties": {
                                         "name": {
                                             "type": "string",
-                                            "description": "Name of holiday"
+                                            "description": "Name of holiday",
+                                            "example": "Spring Festival Day 2"
                                         },
                                         "date": {
                                             "type": "string",
-                                            "description": "Date of holiday"
+                                            "description": "Date of holiday",
+                                            "example": "2023-01-31"
                                         },
                                         "location": {
                                             "type": "string",
-                                            "description": "Location of holiday"
+                                            "description": "Location of holiday",
+                                            "example": "Shanghai, CN"
                                         }
                                     }
                                 }
@@ -119,6 +134,23 @@
                         }
                     }
                 }
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "error_code": {
+                        "type": "integer",
+                        "description": "Error code"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Error message"
+                    }
+                },
+                "required": [
+                    "error_code",
+                    "message"
+                ]
             }
         }
     },
@@ -234,17 +266,11 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error_code": {
-                                            "type": "integer",
-                                            "description": "Error code representing the type of error that occurred."
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "description": "A description of the error that occurred."
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 400,
+                                    "message": "Invalid request"
                                 }
                             }
                         }
@@ -254,17 +280,11 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error_code": {
-                                            "type": "integer",
-                                            "description": "Error code representing the type of error that occurred."
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "description": "A description of the error that occurred."
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 404,
+                                    "message": "Model not found with model_id m_3238434738438738934"
                                 }
                             }
                         }
@@ -274,17 +294,11 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error_code": {
-                                            "type": "integer",
-                                            "description": "Error code representing the type of error that occurred."
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "description": "A description of the error that occurred."
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 500,
+                                    "message": "Server could not process your request"
                                 }
                             }
                         }
@@ -339,17 +353,25 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error_code": {
-                                            "type": "integer",
-                                            "description": "Error code representing the type of error that occurred."
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "description": "A description of the error that occurred."
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 400,
+                                    "message": "Invalid request"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 404,
+                                    "message": "Model not found with model_id m_3238434738438738934"
                                 }
                             }
                         }
@@ -359,17 +381,11 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error_code": {
-                                            "type": "integer",
-                                            "description": "Error code representing the type of error that occurred."
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "description": "A description of the error that occurred."
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 500,
+                                    "message": "Server could not process your request"
                                 }
                             }
                         }
@@ -466,37 +482,11 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error_code": {
-                                            "type": "integer",
-                                            "description": "Error code representing the type of error that occurred."
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "description": "A description of the error that occurred."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error_code": {
-                                            "type": "integer",
-                                            "description": "Error code representing the type of error that occurred."
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "description": "A description of the error that occurred."
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 400,
+                                    "message": "Invalid request"
                                 }
                             }
                         }
@@ -506,17 +496,11 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error_code": {
-                                            "type": "integer",
-                                            "description": "Error code representing the type of error that occurred."
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "description": "A description of the error that occurred."
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 500,
+                                    "message": "Server could not process your request"
                                 }
                             }
                         }
@@ -556,17 +540,11 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error_code": {
-                                            "type": "integer",
-                                            "description": "Error code representing the type of error that occurred."
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "description": "A description of the error that occurred."
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 400,
+                                    "message": "Invalid request"
                                 }
                             }
                         }
@@ -576,17 +554,11 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error_code": {
-                                            "type": "integer",
-                                            "description": "Error code representing the type of error that occurred."
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "description": "A description of the error that occurred."
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 404,
+                                    "message": "Model not found with model_id m_3238434738438738934"
                                 }
                             }
                         }
@@ -596,17 +568,11 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error_code": {
-                                            "type": "integer",
-                                            "description": "Error code representing the type of error that occurred."
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "description": "A description of the error that occurred."
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 500,
+                                    "message": "Server could not process your request"
                                 }
                             }
                         }
