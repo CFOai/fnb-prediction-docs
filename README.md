@@ -27,7 +27,7 @@ Use case: *"I want to predict the unit sales of Corona beers for the next 14 day
 
 First, look up which models are built for "corona"
 
-`GET /v1/models?name=corona`
+`GET /v1/models?resource_name=corona`
 
 Result
 
@@ -52,7 +52,7 @@ Then, retrieve predictions from the model you want
 
 Use case: "I want to predict the total red wine sales in my Guangzhou Viva La Rev store for next 7 days."
 
-`GET /v1/models?name=red_wine`
+`GET /v1/models?resource_name=red_wine`
 
 | created_at               | model_id                | resource_name  | resource_id | store           | resource_type       | status | output_type |
 |--------------------------|-------------------------|-------|---|----------------------|------------|--------|-------------|
@@ -74,7 +74,7 @@ Then, retrieve predictions from the model you want
 ### Case 3: Getting a prediction for all sales in a store
 
 I want to predict the total sales in my Guangzhou Viva La Rev store for next 14 days.
-`GET /v1/models?name=Viva La Rev`
+`GET /v1/models?resource_name=Viva La Rev`
 
 List of all models trained on Viva La Rev
 `GET /v1/predictions/m_407854834`
