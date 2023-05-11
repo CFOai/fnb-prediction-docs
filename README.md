@@ -31,18 +31,18 @@ First, look up which models are built for "corona"
 
 Result
 
-| Created At               | Model ID                | Name  | Restaurant           | Type       | Status | Output Type |
-|--------------------------|-------------------------|-------|----------------------|------------|--------|-------------|
-| 2023-05-19T10:00:30.000Z | m_3238434738438738934   | Corona| Viva La Rev GuangZhou | menu_item  | ready  | unit        |
-| 2023-05-19T10:00:30.000Z | m_1234567890123456789   | Corona| Viva La Rev Xiamen    | menu_item  | ready  | unit        |
-| 2023-05-19T10:00:30.000Z | m_2345678901234567890   | Corona| Bacha              | menu_item  | ready  | unit        |
-| 2023-05-18T10:00:30.000Z | m_3456789012345678901   | Corona| Viva La Rev GuangZhou | menu_item  | failed | unit        |
+| created_at               | model_id                | resource_name  | resource_id | store           | resource_type       | status | output_type |
+|--------------------------|-------------------------|-------|---|----------------------|------------|--------|-------------|
+| 2023-05-19T10:00:30.000Z | m_3238434738438738934   | Corona| corona_2750rf | Viva La Rev GuangZhou | menu_item  | ready  | unit        |
+| 2023-05-19T10:00:30.000Z | m_1234567890123456789   | Corona| corona_8947rf | Viva La Rev Xiamen    | menu_item  | ready  | unit        |
+| 2023-05-19T10:00:30.000Z | m_2345678901234567890   | Corona| corona_1457rf | Bacha              | menu_item  | ready  | unit        |
+| 2023-05-18T10:00:30.000Z | m_3456789012345678901   | Corona| corona_2750rf | Viva La Rev GuangZhou | menu_item  | failed | unit        |
 
 Then, retrieve predictions from the model you want
 
 `GET /v1/predictions/m_3238434738438738934?days=3`
 
-| Date       | Model ID                | Name  | Type       | Restaurant           | Predicted Avg Sales | Buffered Prediction | Confidence | Manual Adjustment | Status | Created At               | Output Type |
+| predicted_date       | model_id                | resource_name  | resource_type       | store           | predicted_avg_sales | buffered_prediction | confidence | manual_adjustment | status | created_at               | output_type |
 |------------|-------------------------|-------|------------|----------------------|---------------------|---------------------|------------|------------------|--------|--------------------------|-------------|
 | 2023-05-24 | m_3238434738438738934   | Corona| menu_item  | Viva La Rev GuangZhou | 23                  | 29                  | 0.95       | 3                | ready  | 2023-05-24T10:00:30.000Z | unit        |
 | 2023-05-25 | m_3238434738438738934   | Corona| menu_item  | Viva La Rev GuangZhou | 25                  | 31                  | 0.94       | 4                | ready  | 2023-05-25T10:00:30.000Z | unit        |
@@ -54,18 +54,18 @@ Use case: "I want to predict the total red wine sales in my Guangzhou Viva La Re
 
 `GET /v1/models?name=red_wine`
 
-| Created At               | Model ID                | Name  | Restaurant           | Type       | Status | Output Type |
-|--------------------------|-------------------------|-------|----------------------|------------|--------|-------------|
-| 2023-05-19T10:00:30.000Z | m_4872394239842394823   | red wine | Viva La Rev GuangZhou | category  | ready  | revenue        |
-| 2023-05-19T10:00:30.000Z | m_2394832948239842384   | red wine-infused steak | Viva La Rev Xiamen    | menu_item  | ready  | unit        |
-| 2023-05-19T10:00:30.000Z | m_4239842398439239842   | Pinot red wine | Bacha              | menu_item  | ready  | revenue        |
-| 2023-05-18T10:00:30.000Z | m_2384923849238492384   | red wine | Viva La Rev GuangZhou | category  | failed | revenue        |
+| created_at               | model_id                | resource_name  | resource_id | store           | resource_type       | status | output_type |
+|--------------------------|-------------------------|-------|---|----------------------|------------|--------|-------------|
+| 2023-05-19T10:00:30.000Z | m_4872394239842394823   | red wine | red_wine_2875dw | Viva La Rev GuangZhou | category  | ready  | revenue        |
+| 2023-05-19T10:00:30.000Z | m_2394832948239842384   | red wine-infused steak | red_wine-infused_steak_5729ps | Viva La Rev Xiamen    | menu_item  | ready  | unit        |
+| 2023-05-19T10:00:30.000Z | m_4239842398439239842   | Pinot red wine | pinot_red_wine_0174bi | Bacha              | menu_item  | ready  | revenue        |
+| 2023-05-18T10:00:30.000Z | m_2384923849238492384   | red wine | red_wine_2875dw | Viva La Rev GuangZhou | category  | failed | revenue        |
 
 Then, retrieve predictions from the model you want
 
 `GET /v1/predictions/m_4872394239842394823&days=3`
 
-| Date       | Model ID                | Name  | Type       | Restaurant           | Predicted Avg Sales (RMB) | Buffered Prediction (RMB) | Confidence | Manual Adjustment | Output Type |
+| predicted_date       | model_id                | resource_name  | resource_type       | store           | predicted_avg_sales | buffered_prediction | confidence | manual_adjustment | output_type |
 |------------|-------------------------|-------|------------|----------------------|---------------------------|---------------------------|------------|------------------|-------------|
 | 2023-05-24 | m_4872394239842394823   | red wine | category  | Viva La Rev GuangZhou | 2300                    | 2900                      | 0.95       | 3                | revenue     |
 | 2023-05-25 | m_4872394239842394823   | red wine | category  | Viva La Rev GuangZhou | 2500                    | 3100                      | 0.94       | 4                | revenue     |

@@ -22,15 +22,25 @@
                         "description": "The unique identifier of the model.",
                         "example": "m_3238434738438738934"
                     },
-                    "type": {
+                    "resource_type": {
                         "type": "string",
                         "description": "The level of aggregation that the model is trained on. Can return 'menu_item', 'category', or 'store' (for now)",
+                        "enum": [
+                            "menu_item",
+                            "category",
+                            "store"
+                        ],
                         "example": "menu_item"
                     },
-                    "name": {
+                    "resource_name": {
                         "type": "string",
-                        "description": "The name for the level of aggregation, such as 'Corona' (if it's a menu_item) or 'Red wines' (if it's a category).",
-                        "example": "Corona"
+                        "description": "The name for the resource, such as 'corona' (if it's a menu_item) or 'Red wines' (if it's a category).",
+                        "example": "corona"
+                    },
+                    "resource_id": {
+                        "type": "string",
+                        "description": "A unique id for the resource. For menu_items, it may be the name_sku.",
+                        "example": "corona_2750rf"
                     },
                     "status": {
                         "type": "string",
@@ -69,12 +79,12 @@
                                 },
                                 "predicted_avg_sales": {
                                     "type": "number",
-                                    "description": "The historical average sales for the menu item.",
+                                    "description": "The historical average sales for the menu item. If `model.output_type` is 'units', this will be the average units sold. If `model.output_type` is 'revenue', this will be the average revenue in the store's local currency.",
                                     "example": 23
                                 },
                                 "buffered_prediction": {
                                     "type": "number",
-                                    "description": "The predicted sales for the menu item with the designated buffer amount added.",
+                                    "description": "The predicted sales for the menu item with the designated buffer amount added. If `model.output_type` is 'units', this will be the buffered prediction in units. If `model.output_type` is 'revenue', this will be the buffered prediction in the store's local currency.",
                                     "example": 29
                                 },
                                 "confidence": {
@@ -84,7 +94,7 @@
                                 },
                                 "manual_adjustment": {
                                     "type": "number",
-                                    "description": "Any manual adjustment, if provided, included in the predicted_sales figure.",
+                                    "description": "Any manual adjustment, if provided, included in the predicted_sales figure. This will be in 'units' if `model.output_type` is 'units', and in the store's local currency if `model.output_type` is 'revenue'.",
                                     "example": 3
                                 },
                                 "weather": {
