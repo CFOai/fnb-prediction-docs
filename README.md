@@ -33,10 +33,10 @@ Result
 
 | Created At               | Model ID                | Name  | Restaurant           | Type       | Status | Output Type |
 |--------------------------|-------------------------|-------|----------------------|------------|--------|-------------|
-| 2023-05-19T10:00:30.000Z | m_3238434738438738934   | Corona| Revolucion GuangZhou | menu_item  | ready  | unit        |
-| 2023-05-19T10:00:30.000Z | m_1234567890123456789   | Corona| Revolucion Xiamen    | menu_item  | ready  | unit        |
-| 2023-05-19T10:00:30.000Z | m_2345678901234567890   | Corona| Bottega              | menu_item  | ready  | unit        |
-| 2023-05-18T10:00:30.000Z | m_3456789012345678901   | Corona| Revolucion GuangZhou | menu_item  | failed | unit        |
+| 2023-05-19T10:00:30.000Z | m_3238434738438738934   | Corona| Viva La Rev GuangZhou | menu_item  | ready  | unit        |
+| 2023-05-19T10:00:30.000Z | m_1234567890123456789   | Corona| Viva La Rev Xiamen    | menu_item  | ready  | unit        |
+| 2023-05-19T10:00:30.000Z | m_2345678901234567890   | Corona| Bacha              | menu_item  | ready  | unit        |
+| 2023-05-18T10:00:30.000Z | m_3456789012345678901   | Corona| Viva La Rev GuangZhou | menu_item  | failed | unit        |
 
 Then, retrieve predictions from the model you want
 
@@ -44,22 +44,22 @@ Then, retrieve predictions from the model you want
 
 | Date       | Model ID                | Name  | Type       | Restaurant           | Predicted Avg Sales | Buffered Prediction | Confidence | Manual Adjustment | Status | Created At               | Output Type |
 |------------|-------------------------|-------|------------|----------------------|---------------------|---------------------|------------|------------------|--------|--------------------------|-------------|
-| 2023-05-24 | m_3238434738438738934   | Corona| menu_item  | Revolucion GuangZhou | 23                  | 29                  | 0.95       | 3                | ready  | 2023-05-24T10:00:30.000Z | unit        |
-| 2023-05-25 | m_3238434738438738934   | Corona| menu_item  | Revolucion GuangZhou | 25                  | 31                  | 0.94       | 4                | ready  | 2023-05-25T10:00:30.000Z | unit        |
-| 2023-05-26 | m_3238434738438738934   | Corona| menu_item  | Revolucion GuangZhou | 27                  | 33                  | 0.92       | 2                | ready  | 2023-05-26T10:00:30.000Z | unit        |
+| 2023-05-24 | m_3238434738438738934   | Corona| menu_item  | Viva La Rev GuangZhou | 23                  | 29                  | 0.95       | 3                | ready  | 2023-05-24T10:00:30.000Z | unit        |
+| 2023-05-25 | m_3238434738438738934   | Corona| menu_item  | Viva La Rev GuangZhou | 25                  | 31                  | 0.94       | 4                | ready  | 2023-05-25T10:00:30.000Z | unit        |
+| 2023-05-26 | m_3238434738438738934   | Corona| menu_item  | Viva La Rev GuangZhou | 27                  | 33                  | 0.92       | 2                | ready  | 2023-05-26T10:00:30.000Z | unit        |
 
 ### Case 2: Getting a prediction for a category of foods
 
-Use case: "I want to predict the total red wine sales in my Guangzhou Revolucion store for next 7 days."
+Use case: "I want to predict the total red wine sales in my Guangzhou Viva La Rev store for next 7 days."
 
 `GET /v1/models?name=red_wine`
 
 | Created At               | Model ID                | Name  | Restaurant           | Type       | Status | Output Type |
 |--------------------------|-------------------------|-------|----------------------|------------|--------|-------------|
-| 2023-05-19T10:00:30.000Z | m_4872394239842394823   | red wine | Revolucion GuangZhou | category  | ready  | revenue        |
-| 2023-05-19T10:00:30.000Z | m_2394832948239842384   | red wine-infused steak | Revolucion Xiamen    | menu_item  | ready  | unit        |
-| 2023-05-19T10:00:30.000Z | m_4239842398439239842   | Pinot red wine | Bottega              | menu_item  | ready  | revenue        |
-| 2023-05-18T10:00:30.000Z | m_2384923849238492384   | red wine | Revolucion GuangZhou | category  | failed | revenue        |
+| 2023-05-19T10:00:30.000Z | m_4872394239842394823   | red wine | Viva La Rev GuangZhou | category  | ready  | revenue        |
+| 2023-05-19T10:00:30.000Z | m_2394832948239842384   | red wine-infused steak | Viva La Rev Xiamen    | menu_item  | ready  | unit        |
+| 2023-05-19T10:00:30.000Z | m_4239842398439239842   | Pinot red wine | Bacha              | menu_item  | ready  | revenue        |
+| 2023-05-18T10:00:30.000Z | m_2384923849238492384   | red wine | Viva La Rev GuangZhou | category  | failed | revenue        |
 
 Then, retrieve predictions from the model you want
 
@@ -67,14 +67,14 @@ Then, retrieve predictions from the model you want
 
 | Date       | Model ID                | Name  | Type       | Restaurant           | Predicted Avg Sales (RMB) | Buffered Prediction (RMB) | Confidence | Manual Adjustment | Output Type |
 |------------|-------------------------|-------|------------|----------------------|---------------------------|---------------------------|------------|------------------|-------------|
-| 2023-05-24 | m_4872394239842394823   | red wine | category  | Revolucion GuangZhou | 2300                    | 2900                      | 0.95       | 3                | revenue     |
-| 2023-05-25 | m_4872394239842394823   | red wine | category  | Revolucion GuangZhou | 2500                    | 3100                      | 0.94       | 4                | revenue     |
-| 2023-05-26 | m_4872394239842394823   | red wine | category  | Revolucion GuangZhou | 2700                    | 3300                      | 0.92       | 2                | revenue     |
+| 2023-05-24 | m_4872394239842394823   | red wine | category  | Viva La Rev GuangZhou | 2300                    | 2900                      | 0.95       | 3                | revenue     |
+| 2023-05-25 | m_4872394239842394823   | red wine | category  | Viva La Rev GuangZhou | 2500                    | 3100                      | 0.94       | 4                | revenue     |
+| 2023-05-26 | m_4872394239842394823   | red wine | category  | Viva La Rev GuangZhou | 2700                    | 3300                      | 0.92       | 2                | revenue     |
 
 ### Case 3: Getting a prediction for all sales in a store
 
-I want to predict the total sales in my Guangzhou Revolucion store for next 14 days.
-`GET /v1/models?name=revolucion`
+I want to predict the total sales in my Guangzhou Viva La Rev store for next 14 days.
+`GET /v1/models?name=Viva La Rev`
 
-List of all models trained on revolucion
+List of all models trained on Viva La Rev
 `GET /v1/predictions/m_407854834`
