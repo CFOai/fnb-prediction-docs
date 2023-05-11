@@ -627,6 +627,58 @@
                 }
             }
         },
+        "/v1/models/count": {
+            "get": {
+                "summary": "Retrieve the total count of models",
+                "description": "This endpoint returns the total count of models available in the database.",
+                "responses": {
+                    "200": {
+                        "description": "The total count of models",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "description": "The total count of models."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 400,
+                                    "message": "Invalid request"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "code": 500,
+                                    "message": "Server could not process your request"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/discount": {
             "get": {
                 "summary": "Discount Endpoint (placeholder)",
