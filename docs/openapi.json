@@ -13,6 +13,38 @@
                 "name": "ASTRA-API-KEY"
             }
         },
+        "parameters": {
+            "StartingAfter": {
+                "name": "starting_after",
+                "in": "query",
+                "description": "A cursor for use in pagination. `starting_after` is a model ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with `m_1234567890`, your subsequent call can include `starting_after=m_1234567890` in order to fetch the next page of the list.",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "EndingBefore": {
+                "name": "ending_before",
+                "in": "query",
+                "description": "A cursor for use in pagination. `ending_before` is a model ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `m_1234567890`, your subsequent call can include `ending_before=m_1234567890` in order to fetch the previous page of the list.",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "Limit": {
+                "name": "limit",
+                "in": "query",
+                "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100 items, and the default is 10 items.",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "default": 10
+                }
+            }
+        },
         "schemas": {
             "Model": {
                 "type": "object",
@@ -425,15 +457,6 @@
                         }
                     },
                     {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The number of results to return. Range is between 1 and 100, default is 10.",
-                        "schema": {
-                            "type": "integer",
-                            "example": 10
-                        }
-                    },
-                    {
                         "name": "type",
                         "in": "query",
                         "description": "The types of models to return. Accepts a list of options: 'menu_item', 'category', or 'store'.",
@@ -467,6 +490,15 @@
                             ],
                             "example": "ready"
                         }
+                    },
+                    {
+                        "$ref": "#/components/parameters/StartingAfter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/EndingBefore"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
                     }
                 ],
                 "responses": {
@@ -475,9 +507,18 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Model"
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Model"
+                                            }
+                                        },
+                                        "has_more": {
+                                            "type": "boolean",
+                                            "description": "If false, there are no more pages to load."
+                                        }
                                     }
                                 }
                             }
