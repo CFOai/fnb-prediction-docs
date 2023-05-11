@@ -16,7 +16,7 @@ A human-friendly site can be viewed at [here](https://bump.sh/chingjuiyoung/doc/
 
 ## Thought process behind this structure
 
-- Aggregating individual forecasts are less accurate than modeling aggregation directly. 
+- Aggregating individual forecasts are less accurate than modeling aggregation directly.
 - Example: Getting predictions for all red wine menu items individually (merlot, cabernet, pinot, etc.) and adding them all up, is less accurate than building 1 model for the "red wine" category directly
 
 ## Examples
@@ -42,7 +42,6 @@ Then, retrieve predictions from the model you want
 
 `GET /v1/predictions/m_3238434738438738934?days=3`
 
-
 | Date       | Model ID                | Name  | Type       | Restaurant           | Predicted Avg Sales | Buffered Prediction | Confidence | Manual Adjustment | Status | Created At               | Output Type |
 |------------|-------------------------|-------|------------|----------------------|---------------------|---------------------|------------|------------------|--------|--------------------------|-------------|
 | 2023-05-24 | m_3238434738438738934   | Corona| menu_item  | Revolucion GuangZhou | 23                  | 29                  | 0.95       | 3                | ready  | 2023-05-24T10:00:30.000Z | unit        |
@@ -62,6 +61,7 @@ Use case: "I want to predict the total red wine sales in my Guangzhou Revolucion
 | 2023-05-19T10:00:30.000Z | m_4239842398439239842   | Pinot red wine | Bottega              | menu_item  | ready  | revenue        |
 | 2023-05-18T10:00:30.000Z | m_2384923849238492384   | red wine | Revolucion GuangZhou | category  | failed | revenue        |
 
+Then, retrieve predictions from the model you want
 
 `GET /v1/predictions/m_4872394239842394823&days=3`
 
