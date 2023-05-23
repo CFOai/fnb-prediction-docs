@@ -17,7 +17,7 @@
             "StartingAfter": {
                 "name": "starting_after",
                 "in": "query",
-                "description": "A cursor for use in pagination. `starting_after` is a model ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with `m_1234567890`, your subsequent call can include `starting_after=m_1234567890` in order to fetch the next page of the list.",
+                "description": "A cursor for use in pagination. `starting_after` is the ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with `646c39f586b0765ba0a4f0d6`, your subsequent call can include `starting_after=646c39f586b0765ba0a4f0d6` in order to fetch the next page of the list.",
                 "required": false,
                 "schema": {
                     "type": "string"
@@ -26,7 +26,7 @@
             "EndingBefore": {
                 "name": "ending_before",
                 "in": "query",
-                "description": "A cursor for use in pagination. `ending_before` is a model ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `m_1234567890`, your subsequent call can include `ending_before=m_1234567890` in order to fetch the previous page of the list.",
+                "description": "A cursor for use in pagination. `ending_before` is the ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with `646c39f586b0765ba0a4f0d6`, your subsequent call can include `ending_before=646c39f586b0765ba0a4f0d6` in order to fetch the previous page of the list.",
                 "required": false,
                 "schema": {
                     "type": "string"
@@ -49,10 +49,10 @@
             "Model": {
                 "type": "object",
                 "properties": {
-                    "model_id": {
+                    "_id": {
                         "type": "string",
                         "description": "The unique identifier of the model.",
-                        "example": "m_3238434738438738934"
+                        "example": "646c39c086b0765ba0a4f0d4"
                     },
                     "resource_type": {
                         "type": "string",
@@ -180,7 +180,7 @@
             "Error": {
                 "type": "object",
                 "properties": {
-                    "error_code": {
+                    "code": {
                         "type": "integer",
                         "description": "Error code"
                     },
@@ -193,7 +193,7 @@
         }
     },
     "paths": {
-        "/v1/prediction/{model_id}": {
+        "/v1/prediction/{_id}": {
             "get": {
                 "summary": "Retrieve a prediction for a resource",
                 "description": "Provides the predicted sales for the given resource (menu item, category, store, etc.).",
@@ -204,13 +204,13 @@
                 ],
                 "parameters": [
                     {
-                        "name": "model_id",
+                        "name": "_id",
                         "in": "path",
-                        "description": "The id for the model for which we want to make the predictions from.",
+                        "description": "The id for the model for which we want to make the predictions from. This will come in the form of ObjectId",
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "m_3238434738438738934"
+                            "example": "646c39f586b0765ba0a4f0d6"
                         }
                     },
                     {
@@ -322,7 +322,7 @@
                                 },
                                 "example": {
                                     "code": 404,
-                                    "message": "Model not found with model_id m_3238434738438738934"
+                                    "message": "Model not found with _id 646c39c086b0765ba0a4f0d4"
                                 }
                             }
                         }
@@ -409,7 +409,7 @@
                                 },
                                 "example": {
                                     "code": 404,
-                                    "message": "Model not found with model_id m_3238434738438738934"
+                                    "message": "Model not found with _id 646c39c086b0765ba0a4f0d4"
                                 }
                             }
                         }
@@ -567,7 +567,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "example": "m_3238434738438738934"
+                            "example": "646c39f586b0765ba0a4f0d6"
                         }
                     }
                 ],
@@ -605,7 +605,7 @@
                                 },
                                 "example": {
                                     "code": 404,
-                                    "message": "Model not found with model_id m_3238434738438738934"
+                                    "message": "Model not found with _id 646c39c086b0765ba0a4f0d4"
                                 }
                             }
                         }
@@ -619,59 +619,7 @@
                                 },
                                 "example": {
                                     "code": 500,
-                                    "message": "Server could not process your request"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/models/count": {
-            "get": {
-                "summary": "Retrieve the total count of models",
-                "description": "This endpoint returns the total count of models available in the database.",
-                "responses": {
-                    "200": {
-                        "description": "The total count of models",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "count": {
-                                            "type": "integer",
-                                            "description": "The total count of models."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "example": {
-                                    "code": 400,
-                                    "message": "Invalid request"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "example": {
-                                    "code": 500,
-                                    "message": "Server could not process your request"
+                                    "message": "<Error message>"
                                 }
                             }
                         }
