@@ -199,7 +199,7 @@
         }
     },
     "paths": {
-        "/v1/prediction/{_id}": {
+        "/prediction/{_id}": {
             "get": {
                 "summary": "Retrieve a prediction for a resource",
                 "description": "Provides the predicted sales for the given resource (menu item, category, store, etc.).",
@@ -350,7 +350,7 @@
                 }
             }
         },
-        "/v1/upload": {
+        "/upload": {
             "post": {
                 "summary": "Upload new data (placeholder)",
                 "description": "Upload new historical data to add onto the training data for a predition model. NOTE: This endpoint is currently on hold and not yet implemented. We are still considering the implementation of this feature. Stay tuned for updates.",
@@ -437,7 +437,7 @@
                 }
             }
         },
-        "/v1/models": {
+        "/models": {
             "get": {
                 "summary": "List all models",
                 "description": "Returns a list of trained models. A model is built for every resource (menu item, category, store, etc). Models are trained on previously provided sales data, and also include external data sources such as weather data and public holidays. ",
@@ -566,7 +566,7 @@
                 }
             }
         },
-        "/v1/models/{id}": {
+        "/models/{id}": {
             "get": {
                 "summary": "Retreive a model",
                 "description": "Retreives the details of a trained model. A model is built for every resource (menu item, category, store, etc). Models are trained on previously provided sales data, and also include external data sources such as weather data and public holidays. ",
@@ -643,7 +643,7 @@
                 }
             }
         },
-        "/v1/discount": {
+        "/discount": {
             "get": {
                 "summary": "Discount Endpoint (placeholder)",
                 "description": "This is a placeholder for the future /discount route. More information will be provided once the route is fully implemented.",
