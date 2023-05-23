@@ -5,12 +5,18 @@
         "version": "0.0.1",
         "description": "The Overachieve API provides restaurant managers with a convenient way to get sales predictions. The endpoint mainly return predicted buffered sales.\n\nYou can retrieve predictions at 3 different levels of aggregation (for now): Menu Items, Categories, and Stores. We call these levels 'Resources', because each Resource has its own dedicated model. The Resources are defined as follows:\n\n- **Menu Item**: The most granular resource, representing an individual item on a restaurant's menu.\n\n- **Category**: Represents a group of menu items that fall under the same category (e.g., 'red wines', 'desserts', 'appetizers'). This resource provides a more generalized prediction than individual menu items. Each category is tied to a specific Store. So 'red wines' might be a common category across multiple stores, but we'll have 1 model per category per store.\n\n- **Store**: Represents a whole restaurant. Predictions at this level encompass all menu items within that restaurant.\n\nUsers can retrieve predictions at one of these 3 levels of granularity (for now)."
     },
+    "servers": [
+        {
+            "url": "https://lib.cfo-ai.com/v1",
+            "description": "Production server"
+        }
+    ],
     "components": {
         "securitySchemes": {
-            "ApiKeyAuth": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "ASTRA-API-KEY"
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "<secret key>"
             }
         },
         "parameters": {
@@ -199,7 +205,7 @@
                 "description": "Provides the predicted sales for the given resource (menu item, category, store, etc.).",
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "parameters": [
@@ -435,6 +441,11 @@
             "get": {
                 "summary": "List all models",
                 "description": "Returns a list of trained models. A model is built for every resource (menu item, category, store, etc). Models are trained on previously provided sales data, and also include external data sources such as weather data and public holidays. ",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "name",
@@ -559,6 +570,11 @@
             "get": {
                 "summary": "Retreive a model",
                 "description": "Retreives the details of a trained model. A model is built for every resource (menu item, category, store, etc). Models are trained on previously provided sales data, and also include external data sources such as weather data and public holidays. ",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "id",
