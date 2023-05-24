@@ -82,8 +82,13 @@
                     },
                     "status": {
                         "type": "string",
-                        "description": "The status of the model. Will return 'ready', 'training', or 'failed'.",
-                        "example": "ready"
+                        "description": "The status of the model. Will return 'trained', 'training', or 'failed'.",
+                        "enum": [
+                            "trained",
+                            "training",
+                            "failed"
+                        ],
+                        "example": "trained"
                     },
                     "created_at": {
                         "type": "string",
