@@ -523,7 +523,7 @@
                     {
                         "name": "type",
                         "in": "query",
-                        "description": "The types of models to return. Accepts a list of options: 'menu_item', 'category', or 'store'.",
+                        "description": "The types of models to return. Accepts a list of options: 'menu_item', 'category', or 'store'. To specify multiple values, repeat the parameter with each value. For example, `/models/?type=menu_item&type=category`",
                         "schema": {
                             "type": "array",
                             "items": {
