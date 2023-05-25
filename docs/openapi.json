@@ -523,7 +523,7 @@
                     {
                         "name": "type",
                         "in": "query",
-                        "description": "The types of models to return. Accepts a list of options: 'menu_item', 'category', or 'store'.",
+                        "description": "The types of models to return. Accepts a list of options: 'menu_item', 'category', or 'store'. To specify multiple values, repeat the parameter with each value. For example, `/models/?type=menu_item&type=category`",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -543,16 +543,17 @@
                     {
                         "name": "status",
                         "in": "query",
-                        "description": "The status of models to return. Accepts 'ready', 'training', or 'failed'.",
+                        "description": "The status of models to return.",
                         "required": false,
                         "schema": {
                             "type": "string",
                             "enum": [
-                                "ready",
+                                "trained",
                                 "training",
                                 "failed"
                             ],
-                            "example": "ready"
+                            "default": "trained",
+                            "example": "trained"
                         }
                     },
                     {
@@ -563,6 +564,36 @@
                     },
                     {
                         "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "description": "Parameter to sort the returned models by. Can be either 'created_at' for sorting by model creation date, or 'performance' for sorting by model performance based on RMSE score. For performance, the lower the score the better, so set parameter `sort_order` to 'asc' to sort by best performing models first. Default is 'performance'.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "created_at",
+                                "performance"
+                            ],
+                            "default": "performance",
+                            "example": "performance"
+                        }
+                    },
+                    {
+                        "name": "sort_order",
+                        "in": "query",
+                        "description": "Determines the order of the sorted models. Can be either 'asc' for ascending order or 'desc' for descending order. Default is 'asc'.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ],
+                            "default": "asc",
+                            "example": "desc"
+                        }
                     }
                 ],
                 "responses": {
