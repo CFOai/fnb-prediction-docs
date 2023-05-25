@@ -543,16 +543,17 @@
                     {
                         "name": "status",
                         "in": "query",
-                        "description": "The status of models to return. Accepts 'ready', 'training', or 'failed'.",
+                        "description": "The status of models to return.",
                         "required": false,
                         "schema": {
                             "type": "string",
                             "enum": [
-                                "ready",
+                                "trained",
                                 "training",
                                 "failed"
                             ],
-                            "example": "ready"
+                            "default": "trained",
+                            "example": "trained"
                         }
                     },
                     {
