@@ -285,7 +285,7 @@
                         }
                     },
                     {
-                        "name": "major_events",
+                        "name": "major_events (placeholder)",
                         "in": "query",
                         "description": "An array of dates representing major events that are expected to positively affect sales. The models already include public holidays in their training, so this array should include major events that are not yet captured. By including a date, we will flag that date as a major event and the prediction will be adjusted accordingly. Default is an empty array if not provided.",
                         "required": false,
@@ -299,7 +299,7 @@
                         }
                     },
                     {
-                        "name": "manual_adjustment",
+                        "name": "manual_adjustment (placeholder)",
                         "in": "query",
                         "description": "An array of objects containing dates and manual adjustment amounts for sales predictions, typically used when the user has scheduled catering, reservations with large groups, or other known sales-increasing events.",
                         "required": false,
@@ -327,7 +327,7 @@
                         }
                     },
                     {
-                        "name": "forecast_type",
+                        "name": "forecast_type (placeholder)",
                         "in": "query",
                         "description": "If the type of the model is 'menu_item', then you can determine whether the forecast should be in units or revenue. Models for 'category' or 'store' types only return revenue. Accepts 'units' or 'revenue'. Defaults to 'revenue'.",
                         "schema": {
@@ -340,7 +340,7 @@
                         }
                     },
                     {
-                        "name": "current_price",
+                        "name": "current_price (placeholder)",
                         "in": "query",
                         "description": "Optional, if forecast_type is 'revenue'. The current price of the menu item. Discarded if forecast_type is 'units'. By default, the last known price will be used.",
                         "required": false,
