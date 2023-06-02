@@ -275,11 +275,13 @@
                     {
                         "name": "forecast_days",
                         "in": "query",
-                        "description": "The number of days for the sales forecast. Default is 14 if not provided. Max is 14, mainly based on limit of Weather API forecasts",
+                        "description": "The number of days for the sales forecast. The max is 7, based on limit of Weather API forecasts.",
                         "required": false,
                         "schema": {
                             "type": "integer",
-                            "default": 14
+                            "default": 7,
+                            "minimum": 1,
+                            "maximum": 7
                         }
                     },
                     {
