@@ -299,9 +299,9 @@
                         }
                     },
                     {
-                        "name": "manual_adjustment (placeholder)",
+                        "name": "manual_adjustment",
                         "in": "query",
-                        "description": "An array of objects containing dates and manual adjustment amounts for sales predictions, typically used when the user has scheduled catering, reservations with large groups, or other known sales-increasing events.",
+                        "description": "A URL-safe string that represents a JSON array of objects. Each object represents a manual adjustment and should contain 'date' and 'amount' keys. The 'date' key should correspond to a string that represents a date in the 'YYYY-MM-DD' format. The 'amount' key should correspond to a number, representing the amount to adjust the sales prediction for the specified date. The amount will follow the unit specified under the models' `output_type`. This parameter is typically used when the user has scheduled catering, reservations with large groups, or other known sales-increasing events. To use this parameter, create your array of adjustment objects, convert it to a JSON string using a method like JSON.stringify in JavaScript, then encode the string to make it URL-safe.",
                         "required": false,
                         "schema": {
                             "type": "array",
@@ -311,20 +311,20 @@
                                     "date": {
                                         "type": "string",
                                         "format": "date",
-                                        "description": "The date of the manual adjustment."
+                                        "description": "The date of the manual adjustment. Should be in 'YYYY-MM-DD' format."
                                     },
-                                    "adjustment": {
+                                    "amount": {
                                         "type": "number",
-                                        "description": "The amount to adjust the sales prediction for the specified date. Give it in unit sales"
+                                        "description": "The amount to adjust the sales prediction for the specified date, given in the unit specified under the model's `output_type`."
                                     }
                                 },
                                 "required": [
                                     "date",
-                                    "adjustment"
-                                ],
-                                "default": []
+                                    "amount"
+                                ]
                             }
-                        }
+                        },
+                        "example": "%5B%7B%22date%22%3A%222023-07-04%22%2C%22amount%22%3A500%7D%2C%7B%22date%22%3A%222023-07-05%22%2C%22amount%22%3A600%7D%5D"
                     },
                     {
                         "name": "forecast_type (placeholder)",
