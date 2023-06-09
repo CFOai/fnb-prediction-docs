@@ -327,19 +327,6 @@
                         "example": "%5B%7B%22date%22%3A%222023-07-04%22%2C%22amount%22%3A500%7D%2C%7B%22date%22%3A%222023-07-05%22%2C%22amount%22%3A600%7D%5D"
                     },
                     {
-                        "name": "forecast_type (placeholder)",
-                        "in": "query",
-                        "description": "If the type of the model is 'menu_item', then you can determine whether the forecast should be in units or revenue. Models for 'category' or 'store' types only return revenue. Accepts 'units' or 'revenue'. Defaults to 'revenue'.",
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "units",
-                                "revenue"
-                            ],
-                            "default": "revenue"
-                        }
-                    },
-                    {
                         "name": "current_price (placeholder)",
                         "in": "query",
                         "description": "Optional, if forecast_type is 'revenue'. The current price of the menu item. Discarded if forecast_type is 'units'. By default, the last known price will be used.",
