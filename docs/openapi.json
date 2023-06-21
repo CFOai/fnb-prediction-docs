@@ -80,6 +80,11 @@
                         "description": "A unique id for the resource. For stores, it may be the store id.",
                         "example": "store_32353"
                     },
+                    "store_name": {
+                        "type": "string",
+                        "description": "A unique identifier of the store for the resource. This can be used in conjunction with the resource_id to uniquely identify a resource across all stores.",
+                        "example": "revolution-gz"
+                    },
                     "status": {
                         "type": "string",
                         "description": "The status of the model",
