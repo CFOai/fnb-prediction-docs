@@ -477,7 +477,7 @@
         "/models": {
             "get": {
                 "summary": "List all models",
-                "description": "Returns a list of trained models. A model is built for every resource (menu item, category, store, etc). Models are trained on previously provided sales data, and also include external data sources such as weather data and public holidays. ",
+                "description": "Returns a list of trained models. A model is built for every resource (menu item, category, store, etc). Models are trained on previously provided sales data, and also include external data sources such as weather data and public holidays. Models are only trained on resources that have over 30 data points.",
                 "security": [
                     {
                         "BearerAuth": []
