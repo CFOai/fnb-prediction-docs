@@ -247,7 +247,7 @@
         }
     },
     "paths": {
-        "/prediction/{_id}": {
+        "/predictions/{_id}": {
             "get": {
                 "summary": "Retrieve a prediction for a resource",
                 "description": "Provides the predicted sales for the given resource (menu item, category, store, etc.).",
